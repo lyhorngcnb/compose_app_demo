@@ -83,11 +83,11 @@ fun HomeScreen(
     val menuItems = remember {
         listOf(
             MenuItem(1, "Notes", R.drawable.ic_notes, Screen.Notes.route, Color(0xFF6366F1)),
-            MenuItem(2, "Tasks", R.drawable.ic_tasks, Screen.Tasks.route, Color(0xFFEC4899)),
-            MenuItem(3, "Calendar", R.drawable.ic_calendar, Screen.Calendar.route, Color(0xFF8B5CF6)),
-            MenuItem(4, "Profile", R.drawable.ic_profile, Screen.Profile.route, Color(0xFF14B8A6)),
-            MenuItem(5, "Settings", R.drawable.ic_settings, Screen.Settings.route, Color(0xFFF59E0B)),
-            MenuItem(6, "Help", R.drawable.ic_info, Screen.Help.route, Color(0xFF10B981))
+            MenuItem(2, "Tasks", R.drawable.ic_tasks, Screen.Notes.route, Color(0xFFEC4899)),
+            MenuItem(3, "Calendar", R.drawable.ic_calendar, Screen.Notes.route, Color(0xFF8B5CF6)),
+            MenuItem(4, "Profile", R.drawable.ic_profile, Screen.Notes.route, Color(0xFF14B8A6)),
+            MenuItem(5, "Settings", R.drawable.ic_settings, Screen.Notes.route, Color(0xFFF59E0B)),
+            MenuItem(6, "Help", R.drawable.ic_info, Screen.Notes.route, Color(0xFF10B981))
         )
     }
     Scaffold(
