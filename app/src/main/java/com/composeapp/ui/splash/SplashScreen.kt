@@ -30,7 +30,7 @@ fun SplashScreen(
     viewModel: SplashViewModel = hiltViewModel()
 ) {
     LaunchedEffect(Unit) {
-        delay(2000)
+        delay(500)
         val destination = if (viewModel.isLoggedIn()) {
             Screen.Home.route
         } else {

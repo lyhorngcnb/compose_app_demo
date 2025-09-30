@@ -5,8 +5,9 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.*
+import androidx.compose.ui.graphics.Color
+import androidx.core.view.WindowCompat
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -17,6 +18,7 @@ import com.composeapp.ui.login.LoginScreen
 import com.composeapp.ui.navigation.Screen
 import com.composeapp.ui.notes.NotesScreen
 import com.composeapp.ui.splash.SplashScreen
+import com.composeapp.ui.utils.setStatusBarColor
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -28,12 +30,24 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Enable edge-to-edge display
         enableEdgeToEdge()
+
+        // Make status bar transparent
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+
         setContent {
             val isDarkMode by themePreference.isDarkMode
 
             ComposeAppTheme(darkTheme = isDarkMode) {
                 val navController = rememberNavController()
+
+                // Set transparent status bar with appropriate icon colors
+                setStatusBarColor(
+                    color = Color.Transparent,
+                    darkIcons = !isDarkMode // Light icons in dark mode, dark icons in light mode
+                )
 
                 NavHost(
                     navController = navController,
