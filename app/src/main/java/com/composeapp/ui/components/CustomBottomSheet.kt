@@ -35,10 +35,12 @@ class CustomBottomSheetState(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun rememberCustomBottomSheetState(
-    skipPartiallyExpanded: Boolean = false
+    skipPartiallyExpanded: Boolean = false,
+    confirmValueChange: (SheetValue) -> Boolean = { true }
 ): CustomBottomSheetState {
     val sheetState = rememberModalBottomSheetState(
-        skipPartiallyExpanded = skipPartiallyExpanded
+        skipPartiallyExpanded = skipPartiallyExpanded,
+        confirmValueChange = confirmValueChange
     )
     return remember { CustomBottomSheetState(sheetState) }
 }
@@ -54,6 +56,7 @@ fun CustomBottomSheet(
     showDragHandle: Boolean = true,
     containerColor: Color = MaterialTheme.colorScheme.surface,
     contentColor: Color = MaterialTheme.colorScheme.onSurface,
+    scrimColor: Color = BottomSheetDefaults.ScrimColor,
     footerContent: (@Composable ColumnScope.() -> Unit)? = null,
     content: @Composable ColumnScope.() -> Unit
 ) {
@@ -63,27 +66,16 @@ fun CustomBottomSheet(
             sheetState = state.sheetState,
             dragHandle = if (showDragHandle) {
                 {
-                    Column(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        // Custom Drag Handle
-                        Box(
-                            modifier = Modifier
-                                .padding(top = 12.dp, bottom = 8.dp)
-                                .width(40.dp)
-                                .height(4.dp)
-                                .background(
-                                    color = Color.Gray.copy(alpha = 0.4f),
-                                    shape = RoundedCornerShape(2.dp)
-                                )
-                        )
-                    }
+                    BottomSheetDefaults.DragHandle(
+                        modifier = Modifier.padding(top = 8.dp, bottom = 4.dp)
+                    )
                 }
             } else null,
             containerColor = containerColor,
             contentColor = contentColor,
-            modifier = modifier
+            scrimColor = scrimColor,
+            modifier = modifier,
+            windowInsets = BottomSheetDefaults.windowInsets
         ) {
             Column(
                 modifier = Modifier

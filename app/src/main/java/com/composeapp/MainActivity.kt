@@ -17,6 +17,7 @@ import com.composeapp.ui.home.HomeScreen
 import com.composeapp.ui.login.LoginScreen
 import com.composeapp.ui.navigation.Screen
 import com.composeapp.ui.notes.NotesScreen
+import com.composeapp.ui.screens.SecondScreen
 import com.composeapp.ui.splash.SplashScreen
 import com.composeapp.ui.utils.setStatusBarColor
 import dagger.hilt.android.AndroidEntryPoint
@@ -64,6 +65,9 @@ class MainActivity : ComponentActivity() {
                     }
                     composable(Screen.Notes.route) {
                         NotesScreen(navController)
+                    }
+                    composable(Screen.Second.route) {
+                        SecondScreen(navController)
                     }
                 }
             }
