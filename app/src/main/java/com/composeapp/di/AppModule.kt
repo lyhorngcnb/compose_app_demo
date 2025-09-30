@@ -3,6 +3,7 @@ package com.composeapp.di
 
 import android.content.Context
 import com.composeapp.data.local.TokenManager
+import com.composeapp.data.local.ThemePreference
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,5 +19,11 @@ object AppModule {
     @Singleton
     fun provideTokenManager(@ApplicationContext context: Context): TokenManager {
         return TokenManager(context)
+    }
+
+    @Provides
+    @Singleton
+    fun provideThemePreference(@ApplicationContext context: Context): ThemePreference {
+        return ThemePreference(context)
     }
 }
