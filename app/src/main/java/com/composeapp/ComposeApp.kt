@@ -1,4 +1,4 @@
-// file: ComposeApp.kt
+// ComposeApp.kt
 package com.composeapp
 
 import android.app.Application

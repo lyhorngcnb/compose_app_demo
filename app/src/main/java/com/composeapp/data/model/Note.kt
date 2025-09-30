@@ -1,5 +1,5 @@
-// domain/model/Note.kt
-package com.composeapp.domain.model
+// data/model/Note.kt
+package com.composeapp.data.model
 
 data class Note(
     val id: String,

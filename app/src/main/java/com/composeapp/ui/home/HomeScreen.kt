@@ -1,102 +1,76 @@
+// ui/home/HomeScreen.kt
 package com.composeapp.ui.home
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.ViewModel
+import androidx.navigation.NavController
+import com.composeapp.data.local.TokenManager
+import com.composeapp.ui.components.ButtonPrimary
+import com.composeapp.ui.navigation.Screen
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
+
+@HiltViewModel
+class HomeViewModel @Inject constructor(
+    private val tokenManager: TokenManager
+) : ViewModel() {
+    fun logout() {
+        tokenManager.clearToken()
+    }
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    userName: String = "Developer",
-    items: List<String> = listOf("Learn Compose", "Practice DI", "Build Clean UI"),
-    onItemClick: (String) -> Unit = {}
+    navController: NavController,
+    viewModel: HomeViewModel = hiltViewModel()
 ) {
     Scaffold(
         topBar = {
-            SmallTopAppBar(
-                title = { Text("ComposeApp", style = MaterialTheme.typography.titleLarge) }
-            )
-        }
-    ) { paddingValues ->
-        Column(
-            modifier = Modifier
-                .padding(paddingValues)
-                .padding(16.dp)
-                .fillMaxSize()
-        ) {
-            Text(
-                text = "Hello, $userName 👋",
-                style = MaterialTheme.typography.headlineMedium,
-                color = MaterialTheme.colorScheme.primary
-            )
-
-            Spacer(modifier = Modifier.height(12.dp))
-
-            Card(
-                modifier = Modifier.fillMaxWidth(),
-                shape = MaterialTheme.shapes.medium,
-                elevation = CardDefaults.cardElevation(6.dp)
-            ) {
-                Column(
-                    modifier = Modifier.padding(16.dp)
-                ) {
-                    Text(
-                        "Welcome to ComposeApp",
-                        style = MaterialTheme.typography.titleMedium
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Text(
-                        "This is your playground to learn Clean Architecture & DI in Jetpack Compose!",
-                        style = MaterialTheme.typography.bodyMedium
-                    )
-                }
-            }
-
-            Spacer(modifier = Modifier.height(20.dp))
-
-            Text(
-                "Your tasks",
-                style = MaterialTheme.typography.titleMedium,
-                fontSize = 18.sp
-            )
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            LazyColumn(
-                verticalArrangement = Arrangement.spacedBy(8.dp),
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                items(items) { item ->
-                    ElevatedCard(
-                        modifier = Modifier.fillMaxWidth(),
-                        onClick = { onItemClick(item) }
-                    ) {
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(16.dp),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Text(item, style = MaterialTheme.typography.bodyLarge)
+            TopAppBar(
+                title = { Text("Home") },
+                actions = {
+                    IconButton(
+                        onClick = {
+                            viewModel.logout()
+                            navController.navigate(Screen.Login.route) {
+                                popUpTo(0) { inclusive = true }
+                            }
                         }
+                    ) {
+                        Icon(Icons.Default.ExitToApp, "Logout")
                     }
                 }
-            }
+            )
+        }
+    ) { padding ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(padding)
+                .padding(24.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            Text(
+                text = "Welcome to Home",
+                style = MaterialTheme.typography.headlineMedium
+            )
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(32.dp))
 
-            Button(
-                onClick = { /* TODO: Navigate */ },
-                modifier = Modifier.align(Alignment.CenterHorizontally)
-            ) {
-                Text("Get Started")
-            }
+            ButtonPrimary(
+                text = "Go to Notes",
+                onClick = { navController.navigate(Screen.Notes.route) }
+            )
         }
     }
 }
